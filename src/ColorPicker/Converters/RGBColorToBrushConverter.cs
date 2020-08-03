@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
-using ColorPicker.Structures;
+using ColorPicker.ColorModels;
 using System;
 using System.Globalization;
 

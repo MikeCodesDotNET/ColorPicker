@@ -4,7 +4,8 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using ColorPicker.Structures;
+using ColorPicker.ColorConversion;
+using ColorPicker.ColorModels;
 using ColorPicker.Utilities;
 using ColorPicker.Wheels;
 using System;
@@ -17,7 +18,7 @@ namespace ColorPicker
         public static readonly StyledProperty<double> ThumbSizeProperty = AvaloniaProperty.Register<ColorWheel, double>(nameof(ThumbSize));
         public static readonly StyledProperty<double> ThetaProperty = AvaloniaProperty.Register<ColorWheel, double>(nameof(Theta));
         public static readonly StyledProperty<double> RadProperty = AvaloniaProperty.Register<ColorWheel, double>(nameof(Rad));
-        public static readonly StyledProperty<RGBColor> SelectedColorProperty = AvaloniaProperty.Register<ColorWheel, RGBColor>(nameof(SelectedColor), new RGBColor(255, 255, 255), false, Avalonia.Data.BindingMode.TwoWay);
+        public static readonly StyledProperty<IColorVector> SelectedColorProperty = AvaloniaProperty.Register<ColorWheel, IColorVector>(nameof(SelectedColor), new RGBColor(1, 1, 1), true, Avalonia.Data.BindingMode.TwoWay);
 
 
         //UI Controls (defined in XAML)
@@ -81,10 +82,12 @@ namespace ColorPicker
             set { SetValue(RadProperty, value); }
         }
 
-        public RGBColor SelectedColor
+        public IColorVector SelectedColor
         {
             get { return GetValue(SelectedColorProperty); }
-            set { SetValue(SelectedColorProperty, value); }
+            set { SetValue(SelectedColorProperty, value);
+                UpdateSelector(value);
+            }
         }
 
 
@@ -186,6 +189,7 @@ namespace ColorPicker
         }
 
 
+        ColorModelConverter converter = new ColorModelConverter();
 
         //Thumb Selector 
         private void UpdateSelector()
@@ -209,14 +213,23 @@ namespace ColorPicker
                 double mx = cx + x - _selector.Bounds.Width / 2;
                 double my = cy + y - _selector.Bounds.Height / 2;
 
-                hsv.hue = (float)Theta;
-                hsv.sat = (float)Rad;
-                hsv.value = 1.0f;
+                hsv = new HSVColor(Theta, Rad, 1);
 
                 _selector.Margin = new Thickness(mx, my, 0, 0);
-                _selector.Fill = new SolidColorBrush(SelectedColor);
+                _selector.Fill = new SolidColorBrush(converter.ToRGB(SelectedColor));
             }
         }
+
+        private void UpdateSelector(IColorVector selectedColor)
+        {
+            //var point = wheel.InverseColorMapping(selectedColor);
+
+            //_selector.Margin = new Thickness(point.X, point.Y, 0, 0);
+            //_selector.Fill = new SolidColorBrush(converter.ToRGB(selectedColor));            
+        }
+
+
+
 
 
         private void UpdateSelectorFromPoint(Point point)
