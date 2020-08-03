@@ -9,6 +9,12 @@ An Avalonia Color Picker. Includes a HSV color wheel, CIE views and Sketch like 
   </a>  
 </p>
 
+<p align="center">
+  <a href="https://mikecodes.net">
+    <img src="assets/hue_picker.png" alt="HSV Color Wheel" style="vertical-align:top; margin:4px">
+  </a>  
+</p>
+
 
 ## Getting Started 
 
