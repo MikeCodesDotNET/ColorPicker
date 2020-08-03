@@ -1,0 +1,32 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Sample.ViewModels;assembly=Sample"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:colorPickers="clr-namespace:ColorPicker;assembly=ColorPicker"	
+		xmlns:colorWheel="clr-namespace:ColorPicker.Wheels;assembly=ColorPicker"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		RenderOptions.BitmapInterpolationMode="HighQuality"
+        x:Class="Sample.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Sample">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+		<TabControl>
+
+
+		<TabItem Header="HSV Color Wheel">
+
+			<colorPickers:ColorWheel ThumbSize="24" RGBValue="{Binding RGB}" HorizontalAlignment="Stretch" MinWidth="500" MinHeight="500" VerticalAlignment="Stretch"/>
+
+		</TabItem>
+			
+		
+			
+	</TabControl>
+
+
+</Window>

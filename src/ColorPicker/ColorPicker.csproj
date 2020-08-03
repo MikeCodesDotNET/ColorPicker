@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Library</OutputType>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>0.10.0</VersionPrefix>
+    <VersionSuffix>preview2</VersionSuffix>
+    <Authors>Mike James</Authors>
+    <Company>Mike James</Company>
+    <Description>Avalonia color-picker controls (HSV colour picker, arc-slider, XYZ/xyY color picker)
+
+Includes: 
+- CIE1931 luminance correction. 
+- CIE XYZ/xyY models for device-independent colour control.</Description>
+    <Copyright>Copyright © Mike James 2020</Copyright>
+    <RootNamespace>ColorPicker</RootNamespace>
+    <Product>Color Picker</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  
+  
+  <ItemGroup>
+
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="**\*.xaml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>   
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.0-preview2" />
+    <PackageReference Include="MathNet.Numerics" Version="4.12.0" />
+  </ItemGroup>
+</Project>
