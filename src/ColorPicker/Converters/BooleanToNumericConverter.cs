@@ -1,4 +1,5 @@
-﻿using Avalonia.Data.Converters;
+﻿using Avalonia;
+using Avalonia.Data.Converters;
 using System;
 using System.Globalization;
 
@@ -25,7 +26,8 @@ namespace ColorPicker.Converters
             if (val == FalseValue)
                 return false;
 
-            return value;
+            return AvaloniaProperty.UnsetValue;
+
         }
     }
 }

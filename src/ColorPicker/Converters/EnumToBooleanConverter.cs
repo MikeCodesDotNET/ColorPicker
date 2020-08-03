@@ -1,4 +1,5 @@
-﻿using Avalonia.Data.Converters;
+﻿using Avalonia;
+using Avalonia.Data.Converters;
 using System;
 using System.Globalization;
 
@@ -16,7 +17,8 @@ namespace ColorPicker.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value.Equals(true) ? parameter : value;
+            return value.Equals(true) ? parameter : AvaloniaProperty.UnsetValue;
+            ;
         }
     }
 

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:colorPickers="clr-namespace:ColorPicker;assembly=ColorPicker"	
-		xmlns:colorWheel="clr-namespace:ColorPicker.Wheels;assembly=ColorPicker"
+		xmlns:colorConverters="clr-namespace:ColorPicker.Converters;assembly=ColorPicker"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		RenderOptions.BitmapInterpolationMode="HighQuality"
         x:Class="Sample.Views.MainWindow"
@@ -15,12 +15,29 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
+	<Window.Resources>
+		<colorConverters:RGBColorToBrushConverter x:Key="colorToBrushConverter"/>
+		<colorConverters:RGBColorToHexConverter x:Key="colorToHexConverter"/>
+
+	</Window.Resources>
+
 		<TabControl>
 
 
 		<TabItem Header="HSV Color Wheel">
+			<Grid ColumnDefinitions="Auto, *">
+				
+				<Border Grid.Column="0" CornerRadius="10" ClipToBounds="True" Margin="15" MinWidth="150" Height="120">
+					
+					<StackPanel Background="Gray">
+						<TextBlock Text="{Binding #picker.SelectedColor, Converter={StaticResource colorToHexConverter}}" HorizontalAlignment="Center"  Margin="0,10" FontSize="18" FontWeight="SemiBold"/>
+						<Border Grid.Column="0" BorderBrush="Black" BorderThickness="2" Background="{Binding #picker.SelectedColor, Converter={StaticResource colorToBrushConverter}}" CornerRadius="10" ClipToBounds="True" Margin="15" Width="100" Height="45"/>
+					</StackPanel>	
+				</Border>
+				
+				<colorPickers:ColorWheel x:Name="picker" Grid.Column="1" ThumbSize="24" SelectedColor="{Binding SelectedColor}" HorizontalAlignment="Stretch" MinWidth="500" MinHeight="500" VerticalAlignment="Stretch"/>
 
-			<colorPickers:ColorWheel ThumbSize="24" RGBValue="{Binding RGB}" HorizontalAlignment="Stretch" MinWidth="500" MinHeight="500" VerticalAlignment="Stretch"/>
+			</Grid>
 
 		</TabItem>
 			

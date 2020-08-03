@@ -29,7 +29,6 @@
 				 Height="26"
 				 VerticalAlignment="Top"
 				 HorizontalAlignment="Left"
-				 PointerPressed="PointerPressedThumb"
 				 Width="26" />
 	</Grid>
 </UserControl>

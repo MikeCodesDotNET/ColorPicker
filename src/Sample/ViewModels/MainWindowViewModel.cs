@@ -1,11 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Avalonia;
+using ColorPicker.Structures;
+using ReactiveUI;
 
 namespace Sample.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public string Greeting => "Welcome to Avalonia!";
+        RGBColor _selectedColor;
+
+        public RGBColor SelectedColor
+        {
+            get => _selectedColor;
+            set { 
+                this.RaiseAndSetIfChanged(ref _selectedColor, value);               
+            }
+        }
+
+
+        public MainWindowViewModel()
+        {
+            SelectedColor = new RGBColor();
+
+            
+        }
     }
 }

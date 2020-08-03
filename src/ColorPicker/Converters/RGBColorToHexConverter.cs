@@ -1,21 +1,27 @@
 ﻿using Avalonia;
-using Avalonia.Data;
 using Avalonia.Data.Converters;
+using ColorPicker.Structures;
 using System;
 using System.Globalization;
 
 namespace ColorPicker.Converters
 {
-    public class StringFormatConverter : IValueConverter
+    public class RGBColorToHexConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return String.Format((string)parameter, value);
+            if(value is RGBColor color)
+            {
+                return color.ToHexRGB();
+            }
+            else
+            {
+                return AvaloniaProperty.UnsetValue;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            // Do nothing
             return AvaloniaProperty.UnsetValue;
         }
     }

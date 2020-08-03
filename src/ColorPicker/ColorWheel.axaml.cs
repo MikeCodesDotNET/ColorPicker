@@ -17,7 +17,7 @@ namespace ColorPicker
         public static readonly StyledProperty<double> ThumbSizeProperty = AvaloniaProperty.Register<ColorWheel, double>(nameof(ThumbSize));
         public static readonly StyledProperty<double> ThetaProperty = AvaloniaProperty.Register<ColorWheel, double>(nameof(Theta));
         public static readonly StyledProperty<double> RadProperty = AvaloniaProperty.Register<ColorWheel, double>(nameof(Rad));
-        public static readonly StyledProperty<RGBColor> RGBValueProperty = AvaloniaProperty.Register<ColorWheel, RGBColor>(nameof(RGBColor));
+        public static readonly StyledProperty<RGBColor> SelectedColorProperty = AvaloniaProperty.Register<ColorWheel, RGBColor>(nameof(SelectedColor), new RGBColor(255, 255, 255), false, Avalonia.Data.BindingMode.TwoWay);
 
 
         //UI Controls (defined in XAML)
@@ -55,6 +55,7 @@ namespace ColorPicker
             _grid = this.Get<Grid>("grid");
 
             _selector.PointerMoved += _selector_PointerMoved;
+            _selector.PointerPressed += _selector_PointerPressed;
             _selector.PointerReleased += _selector_PointerReleased;
 
             WheelClass = typeof(HSVWheel);
@@ -64,26 +65,26 @@ namespace ColorPicker
         //Public properties
         public double ThumbSize
         {
-            get { return (double)base.GetValue(ThumbSizeProperty); }
-            set { base.SetValue(ThumbSizeProperty, value); UpdateThumbSize(); }
+            get { return (double)GetValue(ThumbSizeProperty); }
+            set { SetValue(ThumbSizeProperty, value); UpdateThumbSize(); }
         }
 
         public double Theta
         {
-            get { return (double)base.GetValue(ThetaProperty); }
-            set { base.SetValue(ThetaProperty, CircularMath.Mod(value)); }
+            get { return (double)GetValue(ThetaProperty); }
+            set { SetValue(ThetaProperty, CircularMath.Mod(value)); }
         }
 
         public double Rad
         {
-            get { return (double)base.GetValue(RadProperty); }
-            set { base.SetValue(RadProperty, value); }
+            get { return (double)GetValue(RadProperty); }
+            set { SetValue(RadProperty, value); }
         }
 
-        public RGBColor RGBValue
+        public RGBColor SelectedColor
         {
-            get { return (RGBColor)base.GetValue(RGBValueProperty); }
-            set { base.SetValue(RGBValueProperty, value); }
+            get { return GetValue(SelectedColorProperty); }
+            set { SetValue(SelectedColorProperty, value); }
         }
 
 
@@ -91,7 +92,7 @@ namespace ColorPicker
 
         public override void Render(DrawingContext context)
         {
-            this.UpdateSelector();
+            UpdateSelector();
             base.Render(context);
         }
 
@@ -111,7 +112,7 @@ namespace ColorPicker
                 wheel.ZIndex = -2;
                 _grid.Children.Add(wheel);
 
-                wheel.PointerPressed += Wheel_PointerPressed1;
+                wheel.PointerPressed += Wheel_PointerPressed;
             }
         }
 
@@ -127,8 +128,8 @@ namespace ColorPicker
         //Calculations
         private double CalculateTheta(Point point)
         {
-            double cx = this.Bounds.Width / 2;
-            double cy = this.Bounds.Height / 2;
+            double cx = Bounds.Width / 2;
+            double cy = Bounds.Height / 2;
 
             double dx = point.X - cx;
             double dy = point.Y - cy;
@@ -141,8 +142,8 @@ namespace ColorPicker
 
         private double CalculateR(Point point)
         {
-            double cx = this.Bounds.Width / 2;
-            double cy = this.Bounds.Height / 2;
+            double cx = Bounds.Width / 2;
+            double cy = Bounds.Height / 2;
 
             double dx = point.X - cx;
             double dy = point.Y - cy;
@@ -157,15 +158,10 @@ namespace ColorPicker
 
 
         //Pointer Events
-        private void Wheel_PointerPressed(object sender, global::Avalonia.Input.PointerPressedEventArgs e)
+        private void Wheel_PointerPressed(object sender, PointerPressedEventArgs e)
         {
-            AnimateTo(e.GetPosition(this));
-        }
-
-        private void Wheel_PointerPressed1(object sender, PointerPressedEventArgs e)
-        {
-            e.Pointer.Capture(this);
-            AnimateTo(e.GetPosition(this));
+            // e.Pointer.Capture(this);
+            UpdateSelectorFromPoint(e.GetPosition(this));
         }
 
         private void _selector_PointerReleased(object sender, PointerReleasedEventArgs e)
@@ -183,11 +179,10 @@ namespace ColorPicker
             }
         }
 
-        public void PointerPressedThumb(object sender, PointerPressedEventArgs e)
+        public void _selector_PointerPressed(object sender, PointerPressedEventArgs e)
         {
             isDragging = true;
-
-            AnimateTo(e.GetPosition(this));
+            UpdateSelectorFromPoint(e.GetPosition(this));
         }
 
 
@@ -195,10 +190,10 @@ namespace ColorPicker
         //Thumb Selector 
         private void UpdateSelector()
         {
-            if (!double.IsNaN(this.Theta) && !double.IsNaN(this.Rad))
+            if (!double.IsNaN(Theta) && !double.IsNaN(this.Rad))
             {
-                double cx = this.Bounds.Width / 2.0;
-                double cy = this.Bounds.Height / 2.0;
+                double cx = Bounds.Width / 2.0;
+                double cy = Bounds.Height / 2.0;
 
                 double radius = (wheel.ActualOuterRadius - wheel.ActualInnerRadius) * this.Rad + wheel.ActualInnerRadius;
 
@@ -206,20 +201,20 @@ namespace ColorPicker
                 if (radius < wheel.ActualInnerRadius + float.Epsilon)
                     radius = 0.0;
 
-                double angle = this.Theta + 180.0f;
+                double angle = Theta + 180.0f;
 
                 double x = radius * Math.Sin(angle * Math.PI / 180.0);
                 double y = radius * Math.Cos(angle * Math.PI / 180.0);
 
-                double mx = cx + x - this._selector.Bounds.Width / 2;
-                double my = cy + y - this._selector.Bounds.Height / 2;
+                double mx = cx + x - _selector.Bounds.Width / 2;
+                double my = cy + y - _selector.Bounds.Height / 2;
 
                 hsv.hue = (float)Theta;
                 hsv.sat = (float)Rad;
                 hsv.value = 1.0f;
 
-                this._selector.Margin = new Thickness(mx, my, 0, 0);
-                this._selector.Fill = new SolidColorBrush(RGBValue);
+                _selector.Margin = new Thickness(mx, my, 0, 0);
+                _selector.Fill = new SolidColorBrush(SelectedColor);
             }
         }
 
@@ -228,8 +223,9 @@ namespace ColorPicker
         {
             Theta = CalculateTheta(point);
             Rad = CalculateR(point);
-            RGBValue = wheel.ColorMapping(this.Rad, this.Theta, 1.0);
-            UpdateSelector();
+            SelectedColor = wheel.ColorMapping(Rad, Theta, 1.0);
+
+            UpdateSelector();            
         }
 
 
