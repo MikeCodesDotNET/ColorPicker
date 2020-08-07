@@ -6,9 +6,9 @@
         xmlns:primitives="clr-namespace:ColorPickers.Primitives;assembly=ColorPickers"	
 		xmlns:colorPickers="clr-namespace:ColorPickers;assembly=ColorPickers"	
 		xmlns:colorConverters="clr-namespace:ColorPickers.Converters;assembly=ColorPickers"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
-		MinWidth="500"
-		MinHeight="800"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+		Width="400"
+		Height="400"
 		RenderOptions.BitmapInterpolationMode="HighQuality"
         x:Class="Sample.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -24,23 +24,16 @@
 
 	</Window.Resources>
 
-		<TabControl>
-
-
-			<TabItem Header="WinUI Style Picker" IsSelected="True">
-				<Grid ColumnDefinitions="*, *">
-					
+				<Grid Margin="10,100,10,-120">					
 				
-					<colorPickers:ColorPicker Grid.Column="1"
-											  ColorSpectrumShape="Ring"
+					<colorPickers:ColorPicker ColorSpectrumShape="Ring" 
+											  IsHexInputVisible="False" 
 											  IsColorPreviewVisible="False"
-											  IsColorChannelTextInputVisible="True"
-											  IsHexInputVisible="True"
+											  IsValueScrollingEnabled="False"
+											  IsColorChannelTextInputVisible="False"
 											  IsAlphaTextInputVisible="False"/>
 				
 				</Grid>
-
-			</TabItem>
 
 
 			<!--<TabItem Header="Figma Picker" IsSelected="True">
@@ -72,8 +65,6 @@
 				</Grid>
 
 			</TabItem>-->
-			
-	</TabControl>
 
 
 </Window>

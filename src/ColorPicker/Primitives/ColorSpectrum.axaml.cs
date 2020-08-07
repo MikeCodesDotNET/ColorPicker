@@ -107,7 +107,7 @@ namespace ColorPickers.Primitives
 
         public override void Render(DrawingContext context)
         {
-            //UpdateSelector();
+            UpdateSelector();
             base.Render(context);
         }
 
@@ -330,7 +330,7 @@ namespace ColorPickers.Primitives
                 wheel.Rad = wheel.CalculateR(point);
                 Color = _colorSpectrum.ColorMapping(wheel.Rad, wheel.Theta, 1.0);
                 ColorChanged?.Invoke(this, new ColorChangedEventArgs(Color), ColorChangeSource.SpectrumInteraction);
-                //UpdateSelector();              
+                UpdateSelector();              
             }
         }
 
