@@ -1,27 +1,32 @@
-﻿using System;
-using System.Globalization;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Data.Converters;
+using System;
+using System.Globalization;
 
 namespace ColorPickers.Converters
 {
-    /// <summary>
-    ///     See http://stackoverflow.com/questions/397556/how-to-bind-radiobuttons-to-an-enum
-    /// </summary>
-    public class EnumToBooleanConverter : IValueConverter
+    public class HalfNumericValueConverter : IValueConverter
     {
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if(value is double d)
+            {
+                return Math.Round(d / 2);
+            }
             return value.Equals(parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is double d)
+            {
+                return Math.Round(d * 2);
+            }
+
             return value.Equals(true) ? parameter : AvaloniaProperty.UnsetValue;
-            ;
+           
         }
 
     }
-
 }

@@ -1,0 +1,52 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:converters="clr-namespace:ColorPickers.Converters;assembly=ColorPickers"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 MinWidth="5"
+			 MinHeight="5"
+			 Background="Transparent"
+             x:Class="ColorPickers.Primitives.SelectionThumb">
+
+
+	<UserControl.Resources>
+		<converters:HalfNumericValueConverter x:Key="halfValueConverter"/>
+		<converters:AdjustNumericValueConverter x:Key="adjustValueConverter"/>
+
+		<sys:Int32 x:Key="adjustmentValue">-2</sys:Int32>
+	</UserControl.Resources>
+	
+	
+	<Canvas>
+		<Ellipse
+			 x:Name="OuterRing"
+			 Classes="Thumb"
+			 Margin="1"
+			 Fill="Transparent"
+			 ZIndex="-1"
+			 Stroke="{StaticResource ThemeControlVeryHighBrush}"
+		     StrokeThickness="10"
+			 Width="{Binding $parent[1].Width, Converter={StaticResource adjustValueConverter},
+																   ConverterParameter={StaticResource adjustmentValue}}"
+			 Height="{Binding $parent[1].Height, Converter={StaticResource adjustValueConverter},
+																   ConverterParameter={StaticResource adjustmentValue}}"/>
+
+		<Ellipse
+			 x:Name="InnerRing"
+			 Classes="Thumb"
+			 Fill="Transparent"
+			 ZIndex="0"
+			 Margin="1"
+			 Stroke="{StaticResource ThemeBorderHighBrush}"
+			 StrokeThickness="{Binding #OuterRing.StrokeThickness, Converter={StaticResource halfValueConverter}}"		 
+			 Width="{Binding $parent[1].Width, Converter={StaticResource adjustValueConverter},
+																   ConverterParameter={StaticResource adjustmentValue}}"
+			 Height="{Binding $parent[1].Height, Converter={StaticResource adjustValueConverter},
+																   ConverterParameter={StaticResource adjustmentValue}}"/>
+
+	</Canvas>
+	
+	
+</UserControl>

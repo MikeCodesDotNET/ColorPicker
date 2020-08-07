@@ -14,6 +14,6 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ColorPicker\ColorPicker.csproj" />
+    <ProjectReference Include="..\ColorPicker\ColorPickers.csproj" />
   </ItemGroup>
 </Project>

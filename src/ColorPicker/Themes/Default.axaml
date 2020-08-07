@@ -1,0 +1,67 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="ColorPickers.Themes.Default">
+
+	<Style>
+		<Style.Resources>
+			<StaticResource x:Key="ColorPickerSliderThumbBackground" ResourceKey="SystemControlForegroundBaseHighBrush" />
+			<StaticResource x:Key="ColorPickerSliderThumbBackgroundPointerOver" ResourceKey="SystemControlHighlightChromeAltLowBrush" />
+			<StaticResource x:Key="ColorPickerSliderThumbBackgroundPressed" ResourceKey="SystemControlForegroundChromeHighBrush" />
+			<StaticResource x:Key="ColorPickerSliderThumbBackgroundDisabled" ResourceKey="SystemControlDisabledChromeDisabledHighBrush" />
+			<StaticResource x:Key="ColorPickerSliderTrackFillDisabled" ResourceKey="SystemControlDisabledBaseLowBrush" />
+		</Style.Resources>
+	</Style>
+	
+
+	<Style Selector="Ellipse.Thumb">	
+			<Setter Property="Transitions">
+				<Transitions>
+					<DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
+				</Transitions>
+			</Setter>
+	</Style>
+
+	<Style Selector="Ellipse.Thumb:pointerover">
+			<Setter Property="Opacity" Value="0.7"/>
+	</Style>
+	
+	<Style Selector="Slider.ColorPickerSliderStyle">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Grid Name="grid" Background="Transparent">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto" MinHeight="20"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<Border Grid.Row="1" Height="4" Margin="6,0" VerticalAlignment="Center" Background="Transparent"/>
+					
+					<Track Name="PART_Track" Grid.Row="1" Orientation="Horizontal">
+						<Track.DecreaseButton>
+							<RepeatButton Name="PART_DecreaseButton"
+										  Classes="repeattrack" />
+						</Track.DecreaseButton>
+						<Track.IncreaseButton>
+							<RepeatButton Name="PART_IncreaseButton"
+										  Classes="repeattrack" />
+						</Track.IncreaseButton>
+						
+						<Thumb Name="thumb" MinWidth="20" MinHeight="20">
+							<Thumb.Template>
+								<ControlTemplate>
+									<Grid>
+										<Ellipse Width="25" Height="25" Fill="{DynamicResource ThemeControlVeryHighBrush}" Stroke="{DynamicResource ThemeControlLowBrush}" StrokeThickness="1"/>
+									</Grid>
+								</ControlTemplate>
+							</Thumb.Template>
+						</Thumb>
+					</Track>
+				</Grid>
+			</ControlTemplate>
+		</Setter>
+	</Style>	
+
+
+</Styles>

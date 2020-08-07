@@ -1,14 +1,12 @@
-﻿using Avalonia;
-using Avalonia.Data.Converters;
-using System;
+﻿using System;
 using System.Globalization;
+using Avalonia;
+using Avalonia.Data.Converters;
 
-namespace ColorPicker.Converters
+namespace ColorPickers.Converters
 {
     public class BooleanToNumericConverter : IValueConverter
     {
-        public double TrueValue { get; set; }
-        public double FalseValue { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -18,16 +16,26 @@ namespace ColorPicker.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+
             // TODO - Probably not a good idea to compare doubles
             double val = (double)value;
 
-            if (val == TrueValue)
+            if(val == TrueValue)
+            {
                 return true;
-            if (val == FalseValue)
+            }
+
+            if(val == FalseValue)
+            {
                 return false;
+            }
 
             return AvaloniaProperty.UnsetValue;
-
         }
+
+        public double FalseValue { get; set; }
+
+        public double TrueValue { get; set; }
+
     }
 }

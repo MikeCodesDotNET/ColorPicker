@@ -1,38 +1,40 @@
 ﻿using Avalonia;
-using ColorPicker.ColorModels;
+using Avalonia.Controls;
+using Avalonia.Media;
+using ColorPickers;
 using ReactiveUI;
 
 namespace Sample.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        RGBColor _selectedColor;
+        Color _selectedColor;
 
         public void GoToRedCommand()
         {
-            SelectedColor = new RGBColor(Avalonia.Media.Colors.Red);
+            SelectedColor = Avalonia.Media.Colors.Red;
         }
 
         public void GoToGreenCommand()
         {
-            SelectedColor = new RGBColor(Avalonia.Media.Colors.Green);
+            SelectedColor = Avalonia.Media.Colors.Green;
 
         }
 
         public void GoToBlueCommand()
         {
-            SelectedColor = new RGBColor(Avalonia.Media.Colors.Blue);
+            SelectedColor = Avalonia.Media.Colors.Blue;
 
         }
 
         public void GoToPurpleCommand()
         {
-            SelectedColor = new RGBColor(Avalonia.Media.Colors.Purple);
+            SelectedColor = Avalonia.Media.Colors.Purple;
         }
 
 
 
-        public RGBColor SelectedColor
+        public Color SelectedColor
         {
             get => _selectedColor;
             set { 
@@ -41,11 +43,21 @@ namespace Sample.ViewModels
         }
 
 
+        public void ShowPickerDialog()
+        {
+            var window = new Window();
+            //var content = new ColorPickers.Controls.FigmaColorPicker();
+            //window.Content = content;
+            //window.Width = content.Width;
+            //window.Height = content.Height;
+            //window.Title = "Color Picker";
+            window.Show();
+        }
+
         public MainWindowViewModel()
         {
-            SelectedColor = new RGBColor(0, 0, 0);
+            SelectedColor = Rgb.Default.ToColor();
 
-            
         }
     }
 }

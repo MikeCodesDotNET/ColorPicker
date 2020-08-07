@@ -1,0 +1,129 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"			
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 xmlns:local="clr-namespace:ColorPickers.Controls;assembly=ColorPickers"	
+			 xmlns:converters="clr-namespace:ColorPickers.Converters;assembly=ColorPickers"	
+			 Width="250"
+			 Height="380"
+             x:Class="ColorPickers.Controls.FigmaColorPicker">
+
+	<UserControl.Resources>
+		<converters:ObjectEqualsConverter x:Key="ObjectEqualsConverter"/>
+
+
+		<sys:Int32 x:Key="IntZero">0</sys:Int32>
+		<sys:Int32 x:Key="IntOne">1</sys:Int32>
+		<sys:Int32 x:Key="IntTwo">2</sys:Int32>
+		<sys:Int32 x:Key="IntThree">3</sys:Int32>
+		<sys:Int32 x:Key="IntFour">4</sys:Int32>
+		<sys:Int32 x:Key="IntFive">5</sys:Int32>
+		<sys:Int32 x:Key="IntSix">6</sys:Int32>
+
+	</UserControl.Resources>
+
+	<UserControl.Styles>
+		<Style Selector="Ellipse.Thumb">
+			<Setter Property="Height" Value="18" />
+			<Setter Property="Width" Value="18" />
+			<Setter Property="StrokeThickness" Value="2" />
+		</Style>
+	</UserControl.Styles>
+	
+
+	<Grid RowDefinitions="250, 50, 50, *">
+
+		<!-- Saturation -->
+		<Border Grid.Row="0" BorderThickness="3" Width="244"  Height="254" CornerRadius="2" Margin="1,5,8,0" ClipToBounds="True" BorderBrush="{StaticResource ThemeControlHighlightMidBrush}">
+			<Border BorderThickness="1" Width="240" Margin="-5" Height="250" CornerRadius="2" ClipToBounds="True" BorderBrush="Transparent">
+				<local:ColorHue Margin="-1, -1, -1,-2"/>
+			</Border>
+		</Border>
+
+		<!-- Hue Slider & Alpha -->
+		<Grid Margin="10,10,10,0" ColumnDefinitions="57, 180" Grid.Row="1">
+			<Button Grid.Column="0" Height="40" Width="57" VerticalAlignment="Top"/>
+			<Grid Margin="10,0" Grid.Column="1" RowDefinitions="16,4, 16 ">
+				<local:ColorHueSlider Grid.Row="0" Height="16"/>
+				<local:ColorHueSlider Grid.Row="2" Height="16"/>
+			</Grid>
+		</Grid>
+
+		<!-- Color Space Selector -->
+		<Grid ColumnDefinitions="Auto, *" Grid.Row="2" Height="35">
+
+			<ComboBox x:Name="colorSpaceSelection" Grid.Column="0" SelectedIndex="2" MinWidth="57" Margin="10,0">
+				<ComboBoxItem Content="Hex" />
+				<ComboBoxItem Content="RGB" />
+				<ComboBoxItem Content="CMYK"/>
+				<ComboBoxItem Content="HSB" />
+				<ComboBoxItem Content="HSL" />
+				<ComboBoxItem Content="XYZ" />
+				<ComboBoxItem Content="xyY" />
+			</ComboBox>
+
+
+			<!-- HEX View -->
+			<Grid ColumnDefinitions="*, Auto" 
+				  Grid.Column="1"  
+				  Margin="0,0,10,0" 
+				  IsVisible="{Binding #colorSpaceSelection.SelectedIndex, Converter={StaticResource ObjectEqualsConverter}, ConverterParameter={StaticResource IntZero}}">
+						<TextBox Text="FFFFF" Grid.Column="0"  Margin="5,0,-1,0" VerticalContentAlignment="Center"/>
+						<NumericUpDown Value="100" Minimum="0" Maximum="100" Grid.Column="1" MinWidth="40" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+			</Grid>
+
+			<!-- RGB View -->
+			<Grid ColumnDefinitions="Auto,Auto,Auto, Auto" Grid.Column="1"  HorizontalAlignment="Right" Margin="0,0,10,0" IsVisible="{Binding #colorSpaceSelection.SelectedIndex, Converter={StaticResource ObjectEqualsConverter}, ConverterParameter={StaticResource IntOne}}">
+				<NumericUpDown Value="0" Minimum="0" Maximum="255" Grid.Column="0" MinWidth="40" Margin="15,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="255" Grid.Column="1" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="255" Grid.Column="2" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="100"  Minimum="0" Maximum="100" Grid.Column="3" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+			</Grid>
+
+			<!-- CMYK View -->
+			<Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Grid.Column="1"  HorizontalAlignment="Right" Margin="0,0,10,0" IsVisible="{Binding #colorSpaceSelection.SelectedIndex, Converter={StaticResource ObjectEqualsConverter}, ConverterParameter={StaticResource IntTwo}}">
+				<NumericUpDown Value="0" Minimum="0" Maximum="255" Grid.Column="0" MinWidth="40" Margin="15,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="255" Grid.Column="1" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="255" Grid.Column="2" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="100"  Minimum="0" Maximum="100" Grid.Column="3" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+			</Grid>
+
+			<!-- HSB View -->
+			<Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Grid.Column="1" Margin="0,0,10,0" IsVisible="{Binding #colorSpaceSelection.SelectedIndex, Converter={StaticResource ObjectEqualsConverter}, ConverterParameter={StaticResource IntThree}}">
+				<NumericUpDown Value="0" Minimum="0" Maximum="360" Grid.Column="0" MinWidth="40" Margin="15,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="100" Grid.Column="1" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="100" Grid.Column="2" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+			</Grid>
+
+
+			<!-- HSV View -->
+			<Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Grid.Column="1"  Margin="0,0,10,0" IsVisible="{Binding #colorSpaceSelection.SelectedIndex, Converter={StaticResource ObjectEqualsConverter}, ConverterParameter={StaticResource IntFour}}">
+				<NumericUpDown Value="360" Minimum="0" Maximum="360" Grid.Column="0" MinWidth="40" Margin="15,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="100" Grid.Column="1" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="100" Grid.Column="2" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+			</Grid>
+
+			<!-- XYZ View -->
+			<Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Grid.Column="1"  Margin="0,0,10,0" IsVisible="{Binding #colorSpaceSelection.SelectedIndex, Converter={StaticResource ObjectEqualsConverter}, ConverterParameter={StaticResource IntFive}}">
+				<NumericUpDown Value="360" Minimum="0" Maximum="360" Grid.Column="0" MinWidth="40" Margin="15,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="100" Grid.Column="1" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="100" Grid.Column="2" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+			</Grid>
+
+
+			<!-- XyY View -->
+			<Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Grid.Column="1"  Margin="0,0,10,0" IsVisible="{Binding #colorSpaceSelection.SelectedIndex, Converter={StaticResource ObjectEqualsConverter}, ConverterParameter={StaticResource IntSix}}">
+				<NumericUpDown Value="360" Minimum="0" Maximum="360" Grid.Column="0" MinWidth="40" Margin="15,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="100" Grid.Column="1" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+				<NumericUpDown Value="0"  Minimum="0" Maximum="100" Grid.Column="2" MinWidth="40" Margin="0,0,-1,0" ShowButtonSpinner="False" AllowSpin="False" PointerWheelChanged="NumericUpDownMouseScrolled"/>
+			</Grid>
+			
+		</Grid>
+		
+		
+	</Grid>
+	
+	
+</UserControl>

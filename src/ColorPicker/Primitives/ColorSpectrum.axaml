@@ -1,0 +1,50 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:local="clr-namespace:ColorPickers.Primitives;assembly=ColorPickers"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ColorPickers.Primitives.ColorSpectrum">
+	
+	<UserControl.Styles>
+		<Style Selector="Ellipse.Thumb">
+			<Setter Property="Height" Value="26" />
+			<Setter Property="Width" Value="26" />
+			<Setter Property="StrokeThickness" Value="3" />
+
+			<Setter Property="Transitions">
+				<Transitions>
+					<DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
+				</Transitions>
+			</Setter>
+		</Style>
+
+		
+		<Style Selector="Ellipse.Thumb:pointerover">
+			<Setter Property="Opacity" Value="0.7"/>
+			<Setter Property="Stroke" Value="{StaticResource ThemeControlHighlightLowBrush}" />
+		</Style>
+		
+	</UserControl.Styles>
+	
+	<Grid x:Name="grid">
+		<!--
+		<Ellipse x:Name="selector"
+				 Classes="Thumb"
+				 Canvas.Left="10"
+				 Stroke="{StaticResource ThemeBorderHighBrush}"
+				 Canvas.Top="10"
+				 VerticalAlignment="Top"
+				 HorizontalAlignment="Left" /> -->
+
+
+		<local:SelectionThumb x:Name="selector" 
+							  Width="10" 
+							  Height="10" 
+							  OuterRingBrush="{StaticResource ThemeBorderHighBrush}" 
+							  InnerRingBrush="{StaticResource ThemeControlVeryHighBrush}"
+							  VerticalAlignment="Top"
+							  HorizontalAlignment="Left"/>
+		
+	</Grid>
+</UserControl>
