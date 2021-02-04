@@ -1,6 +1,8 @@
 # Avalonia Color Picker
 An Avalonia Color Picker. Includes a HSV color wheel, CIE views and Sketch like pickers. 
 
+## Update
+This project has been picked up by [Aura.UI](https://github.com/PieroCastillo/Aura.UI). I'd recommend using that library instead :) 
 
 
 <p align="center">
